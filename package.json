@@ -6,6 +6,7 @@
   "author": "Conrad Garison",
   "dependencies": {
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "seedrandom": "^3.0.5",
     "winston": "^3.2.1"
   }
 }

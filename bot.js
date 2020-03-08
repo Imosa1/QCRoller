@@ -1,33 +1,39 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var auth = require('./auth.json');
+import { Client } from 'discord.io';
+import { remove, transports, add, level, info } from 'winston';
+import { token as _token } from './auth.json';
 // Configure logger settings
-logger.remove(logger.transports.Console);
-logger.add(new logger.transports.Console, {
+remove(transports.Console);
+add(new transports.Console, {
     colorize: true
 });
-logger.level = 'debug';
+level = 'debug';
 // Initialize Discord Bot
-var bot = new Discord.Client({
-   token: auth.token,
+var bot = new Client({
+   token: _token,
    autorun: true
 });
 bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
+    info('Connected');
+    info('Logged in as: ');
+	info(bot.username + ' - (' + bot.id + ')');
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
+	// It will listen for messages that will start with '&'
+	var commandChar = '&'
 	var rollCommandRegex = /~ ?-?(t|\d*d\d+|\d+)( ?[+-] ?-?(t|\d*d\d+|\d+))* ?[vlhVC]*/;
 	var elementRegex = /([+-]?) ?(-?t|(-?\d*)d(\d+)|-?\d+)/g;
-	
+
+	if (message == '&ping'){
+		bot.sendMessage({ to: channelID, message: 'pong' });
+	}
+
+	/*
 	if (rollCommandRegex.test(message)){
 		let array = [...str.matchAll(regexp)];
 	}
 	
-	/*
+	
     if (message.indexOf('~') != -1) {
 		var output = '';
 		var keyIndex = message.indexOf('~');
@@ -59,4 +65,23 @@ function rollD20(str) {
 	
 	var roll = Math.floor(Math.random()*20)+1; 
 	return roll+str;
+}
+function roll(d,n,a,s) {
+	var seedrandom = require('seedrandom');
+	if(!d) {
+		d=20;
+	}
+	if(!n) {
+		n=1;
+	}
+	if(!a) {
+		a=0;
+	}
+	if(!s) {
+		var rng = new Math.seedrandom();
+	} else {
+		var rng = new Math.seedrandom(String(s));
+	}
+
+	return Math.floor(n*rng()+1)+a;
 }
