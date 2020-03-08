@@ -1,0 +1,11 @@
+{
+  "name": "QC Roller",
+  "version": "0.0.1",
+  "description": "A bot for things in the Queen's Chronicles Server, especially rolling",
+  "main": "bot.js",
+  "author": "Conrad Garison",
+  "dependencies": {
+    "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "winston": "^3.2.1"
+  }
+}
